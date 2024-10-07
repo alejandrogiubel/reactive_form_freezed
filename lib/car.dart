@@ -24,6 +24,10 @@ class Car with _$Car {
     )
     @Default(2024)
     int year,
+    @RfControl(
+      validators: [RequiredValidator()],
+    )
+    required double price,
   }) = _Car;
 
   factory Car.fromJson(Map<String, dynamic> json) => _$CarFromJson(json);

@@ -191,6 +191,8 @@ class CarForm implements FormModel<Car> {
 
   static const String yearControlName = "year";
 
+  static const String priceControlName = "price";
+
   final FormGroup form;
 
   final String? path;
@@ -203,11 +205,15 @@ class CarForm implements FormModel<Car> {
 
   String yearControlPath() => pathBuilder(yearControlName);
 
+  String priceControlPath() => pathBuilder(priceControlName);
+
   String get _modelValue => modelControl.value as String;
 
   String get _colorValue => colorControl.value as String;
 
   int get _yearValue => yearControl.value as int;
+
+  double get _priceValue => priceControl.value as double;
 
   bool get containsModel {
     try {
@@ -236,17 +242,30 @@ class CarForm implements FormModel<Car> {
     }
   }
 
+  bool get containsPrice {
+    try {
+      form.control(priceControlPath());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Map<String, Object> get modelErrors => modelControl.errors;
 
   Map<String, Object> get colorErrors => colorControl.errors;
 
   Map<String, Object> get yearErrors => yearControl.errors;
 
+  Map<String, Object> get priceErrors => priceControl.errors;
+
   void get modelFocus => form.focus(modelControlPath());
 
   void get colorFocus => form.focus(colorControlPath());
 
   void get yearFocus => form.focus(yearControlPath());
+
+  void get priceFocus => form.focus(priceControlPath());
 
   void modelValueUpdate(
     String value, {
@@ -275,6 +294,15 @@ class CarForm implements FormModel<Car> {
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
+  void priceValueUpdate(
+    double value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    priceControl.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
   void modelValuePatch(
     String value, {
     bool updateParent = true,
@@ -299,6 +327,15 @@ class CarForm implements FormModel<Car> {
     bool emitEvent = true,
   }) {
     yearControl.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void priceValuePatch(
+    double value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    priceControl.patchValue(value,
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
@@ -332,6 +369,16 @@ class CarForm implements FormModel<Car> {
       yearControl.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
 
+  void priceValueReset(
+    double value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      priceControl.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   FormControl<String> get modelControl =>
       form.control(modelControlPath()) as FormControl<String>;
 
@@ -340,6 +387,9 @@ class CarForm implements FormModel<Car> {
 
   FormControl<int> get yearControl =>
       form.control(yearControlPath()) as FormControl<int>;
+
+  FormControl<double> get priceControl =>
+      form.control(priceControlPath()) as FormControl<double>;
 
   void modelSetDisabled(
     bool disabled, {
@@ -395,6 +445,24 @@ class CarForm implements FormModel<Car> {
     }
   }
 
+  void priceSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      priceControl.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      priceControl.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
   @override
   Car get model {
     final isValid = !currentForm.hasErrors && currentForm.errors.isEmpty;
@@ -404,7 +472,11 @@ class CarForm implements FormModel<Car> {
           label:
               '[${path ?? 'CarForm'}]\n┗━ Avoid calling `model` on invalid form. Possible exceptions for non-nullable fields which should be guarded by `required` validator.');
     }
-    return Car(model: _modelValue, color: _colorValue, year: _yearValue);
+    return Car(
+        model: _modelValue,
+        color: _colorValue,
+        year: _yearValue,
+        price: _priceValue);
   }
 
   @override
@@ -496,6 +568,13 @@ class CarForm implements FormModel<Car> {
             touched: false),
         yearControlName: FormControl<int>(
             value: car?.year,
+            validators: [RequiredValidator()],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false),
+        priceControlName: FormControl<double>(
+            value: car?.price,
             validators: [RequiredValidator()],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,

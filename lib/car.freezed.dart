@@ -26,6 +26,8 @@ mixin _$Car {
   String get color => throw _privateConstructorUsedError;
   @RfControl(validators: [RequiredValidator()])
   int get year => throw _privateConstructorUsedError;
+  @RfControl(validators: [RequiredValidator()])
+  double get price => throw _privateConstructorUsedError;
 
   /// Serializes this Car to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -44,7 +46,8 @@ abstract class $CarCopyWith<$Res> {
   $Res call(
       {@RfControl(validators: [RequiredValidator()]) String model,
       @RfControl(validators: [RequiredValidator()]) String color,
-      @RfControl(validators: [RequiredValidator()]) int year});
+      @RfControl(validators: [RequiredValidator()]) int year,
+      @RfControl(validators: [RequiredValidator()]) double price});
 }
 
 /// @nodoc
@@ -64,6 +67,7 @@ class _$CarCopyWithImpl<$Res, $Val extends Car> implements $CarCopyWith<$Res> {
     Object? model = null,
     Object? color = null,
     Object? year = null,
+    Object? price = null,
   }) {
     return _then(_value.copyWith(
       model: null == model
@@ -78,6 +82,10 @@ class _$CarCopyWithImpl<$Res, $Val extends Car> implements $CarCopyWith<$Res> {
           ? _value.year
           : year // ignore: cast_nullable_to_non_nullable
               as int,
+      price: null == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 }
@@ -91,7 +99,8 @@ abstract class _$$CarImplCopyWith<$Res> implements $CarCopyWith<$Res> {
   $Res call(
       {@RfControl(validators: [RequiredValidator()]) String model,
       @RfControl(validators: [RequiredValidator()]) String color,
-      @RfControl(validators: [RequiredValidator()]) int year});
+      @RfControl(validators: [RequiredValidator()]) int year,
+      @RfControl(validators: [RequiredValidator()]) double price});
 }
 
 /// @nodoc
@@ -108,6 +117,7 @@ class __$$CarImplCopyWithImpl<$Res> extends _$CarCopyWithImpl<$Res, _$CarImpl>
     Object? model = null,
     Object? color = null,
     Object? year = null,
+    Object? price = null,
   }) {
     return _then(_$CarImpl(
       model: null == model
@@ -122,6 +132,10 @@ class __$$CarImplCopyWithImpl<$Res> extends _$CarCopyWithImpl<$Res, _$CarImpl>
           ? _value.year
           : year // ignore: cast_nullable_to_non_nullable
               as int,
+      price: null == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -132,7 +146,8 @@ class _$CarImpl implements _Car {
   _$CarImpl(
       {@RfControl(validators: [RequiredValidator()]) this.model = 'Tesla',
       @RfControl(validators: [RequiredValidator()]) this.color = 'Green',
-      @RfControl(validators: [RequiredValidator()]) this.year = 2024});
+      @RfControl(validators: [RequiredValidator()]) this.year = 2024,
+      @RfControl(validators: [RequiredValidator()]) required this.price});
 
   factory _$CarImpl.fromJson(Map<String, dynamic> json) =>
       _$$CarImplFromJson(json);
@@ -149,10 +164,13 @@ class _$CarImpl implements _Car {
   @JsonKey()
   @RfControl(validators: [RequiredValidator()])
   final int year;
+  @override
+  @RfControl(validators: [RequiredValidator()])
+  final double price;
 
   @override
   String toString() {
-    return 'Car(model: $model, color: $color, year: $year)';
+    return 'Car(model: $model, color: $color, year: $year, price: $price)';
   }
 
   @override
@@ -162,12 +180,13 @@ class _$CarImpl implements _Car {
             other is _$CarImpl &&
             (identical(other.model, model) || other.model == model) &&
             (identical(other.color, color) || other.color == color) &&
-            (identical(other.year, year) || other.year == year));
+            (identical(other.year, year) || other.year == year) &&
+            (identical(other.price, price) || other.price == price));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, model, color, year);
+  int get hashCode => Object.hash(runtimeType, model, color, year, price);
 
   /// Create a copy of Car
   /// with the given fields replaced by the non-null parameter values.
@@ -187,10 +206,11 @@ class _$CarImpl implements _Car {
 
 abstract class _Car implements Car {
   factory _Car(
-          {@RfControl(validators: [RequiredValidator()]) final String model,
-          @RfControl(validators: [RequiredValidator()]) final String color,
-          @RfControl(validators: [RequiredValidator()]) final int year}) =
-      _$CarImpl;
+      {@RfControl(validators: [RequiredValidator()]) final String model,
+      @RfControl(validators: [RequiredValidator()]) final String color,
+      @RfControl(validators: [RequiredValidator()]) final int year,
+      @RfControl(validators: [RequiredValidator()])
+      required final double price}) = _$CarImpl;
 
   factory _Car.fromJson(Map<String, dynamic> json) = _$CarImpl.fromJson;
 
@@ -203,6 +223,9 @@ abstract class _Car implements Car {
   @override
   @RfControl(validators: [RequiredValidator()])
   int get year;
+  @override
+  @RfControl(validators: [RequiredValidator()])
+  double get price;
 
   /// Create a copy of Car
   /// with the given fields replaced by the non-null parameter values.
