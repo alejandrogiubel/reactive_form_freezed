@@ -4,28 +4,25 @@ import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 part 'car.freezed.dart';
 part 'car.gform.dart';
 
-@Rf()
+@Rf(output: true)
 @freezed
 class Car with _$Car {
   factory Car({
     @RfControl(
       validators: [RequiredValidator()],
     )
-    @Default('Tesla')
-    String model,
+    String? model,
     @RfControl(
       validators: [RequiredValidator()],
     )
-    @Default('Green')
-    String color,
+    String? color,
     @RfControl(
       validators: [RequiredValidator()],
     )
-    @Default(2024)
-    int year,
+    int? year,
     @RfControl(
       validators: [RequiredValidator()],
     )
-    required double price,
+    double? price,
   }) = _Car;
 }

@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       ),
       home: Scaffold(
         body: CarFormBuilder(
-          model: Car(price: 100000),
+          model: Car(color: 'Blue'),
           builder: (context, formModel, child) => Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),

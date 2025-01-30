@@ -212,7 +212,7 @@ class _CarFormBuilderState extends State<CarFormBuilder> {
 
 final _logCarForm = Logger.detached('CarForm');
 
-class CarForm implements FormModel<Car, Car> {
+class CarForm implements FormModel<Car, CarOutput> {
   CarForm(
     this.form,
     this.path,
@@ -240,21 +240,21 @@ class CarForm implements FormModel<Car, Car> {
 
   String priceControlPath() => pathBuilder(priceControlName);
 
-  String get _modelValue => modelControl.value ?? 'Tesla';
+  String get _modelValue => modelControl.value as String;
 
-  String get _colorValue => colorControl.value ?? 'Green';
+  String get _colorValue => colorControl.value as String;
 
-  int get _yearValue => yearControl.value ?? 2024;
+  int get _yearValue => yearControl.value as int;
 
   double get _priceValue => priceControl.value as double;
 
-  String get _modelRawValue => modelControl.value ?? 'Tesla';
+  String? get _modelRawValue => modelControl.value;
 
-  String get _colorRawValue => colorControl.value ?? 'Green';
+  String? get _colorRawValue => colorControl.value;
 
-  int get _yearRawValue => yearControl.value ?? 2024;
+  int? get _yearRawValue => yearControl.value;
 
-  double get _priceRawValue => priceControl.value as double;
+  double? get _priceRawValue => priceControl.value;
 
   @Deprecated(
       'Generator completely wraps the form and ensures at startup that all controls are present inside the form so we do not need this additional step')
@@ -300,13 +300,13 @@ class CarForm implements FormModel<Car, Car> {
     }
   }
 
-  Map<String, Object> get modelErrors => modelControl.errors;
+  Map<String, Object>? get modelErrors => modelControl.errors;
 
-  Map<String, Object> get colorErrors => colorControl.errors;
+  Map<String, Object>? get colorErrors => colorControl.errors;
 
-  Map<String, Object> get yearErrors => yearControl.errors;
+  Map<String, Object>? get yearErrors => yearControl.errors;
 
-  Map<String, Object> get priceErrors => priceControl.errors;
+  Map<String, Object>? get priceErrors => priceControl.errors;
 
   void get modelFocus => form.focus(modelControlPath());
 
@@ -316,8 +316,120 @@ class CarForm implements FormModel<Car, Car> {
 
   void get priceFocus => form.focus(priceControlPath());
 
+  @Deprecated(
+      'Generator completely wraps the form so manual fields removal could lead to unexpected crashes')
+  void modelRemove({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (containsModel) {
+      final controlPath = path;
+      if (controlPath == null) {
+        form.removeControl(
+          modelControlName,
+          updateParent: updateParent,
+          emitEvent: emitEvent,
+        );
+      } else {
+        final formGroup = form.control(controlPath);
+
+        if (formGroup is FormGroup) {
+          formGroup.removeControl(
+            modelControlName,
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+      }
+    }
+  }
+
+  @Deprecated(
+      'Generator completely wraps the form so manual fields removal could lead to unexpected crashes')
+  void colorRemove({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (containsColor) {
+      final controlPath = path;
+      if (controlPath == null) {
+        form.removeControl(
+          colorControlName,
+          updateParent: updateParent,
+          emitEvent: emitEvent,
+        );
+      } else {
+        final formGroup = form.control(controlPath);
+
+        if (formGroup is FormGroup) {
+          formGroup.removeControl(
+            colorControlName,
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+      }
+    }
+  }
+
+  @Deprecated(
+      'Generator completely wraps the form so manual fields removal could lead to unexpected crashes')
+  void yearRemove({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (containsYear) {
+      final controlPath = path;
+      if (controlPath == null) {
+        form.removeControl(
+          yearControlName,
+          updateParent: updateParent,
+          emitEvent: emitEvent,
+        );
+      } else {
+        final formGroup = form.control(controlPath);
+
+        if (formGroup is FormGroup) {
+          formGroup.removeControl(
+            yearControlName,
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+      }
+    }
+  }
+
+  @Deprecated(
+      'Generator completely wraps the form so manual fields removal could lead to unexpected crashes')
+  void priceRemove({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (containsPrice) {
+      final controlPath = path;
+      if (controlPath == null) {
+        form.removeControl(
+          priceControlName,
+          updateParent: updateParent,
+          emitEvent: emitEvent,
+        );
+      } else {
+        final formGroup = form.control(controlPath);
+
+        if (formGroup is FormGroup) {
+          formGroup.removeControl(
+            priceControlName,
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+      }
+    }
+  }
+
   void modelValueUpdate(
-    String value, {
+    String? value, {
     bool updateParent = true,
     bool emitEvent = true,
   }) {
@@ -326,7 +438,7 @@ class CarForm implements FormModel<Car, Car> {
   }
 
   void colorValueUpdate(
-    String value, {
+    String? value, {
     bool updateParent = true,
     bool emitEvent = true,
   }) {
@@ -335,7 +447,7 @@ class CarForm implements FormModel<Car, Car> {
   }
 
   void yearValueUpdate(
-    int value, {
+    int? value, {
     bool updateParent = true,
     bool emitEvent = true,
   }) {
@@ -344,7 +456,7 @@ class CarForm implements FormModel<Car, Car> {
   }
 
   void priceValueUpdate(
-    double value, {
+    double? value, {
     bool updateParent = true,
     bool emitEvent = true,
   }) {
@@ -353,7 +465,7 @@ class CarForm implements FormModel<Car, Car> {
   }
 
   void modelValuePatch(
-    String value, {
+    String? value, {
     bool updateParent = true,
     bool emitEvent = true,
   }) {
@@ -362,7 +474,7 @@ class CarForm implements FormModel<Car, Car> {
   }
 
   void colorValuePatch(
-    String value, {
+    String? value, {
     bool updateParent = true,
     bool emitEvent = true,
   }) {
@@ -371,7 +483,7 @@ class CarForm implements FormModel<Car, Car> {
   }
 
   void yearValuePatch(
-    int value, {
+    int? value, {
     bool updateParent = true,
     bool emitEvent = true,
   }) {
@@ -380,7 +492,7 @@ class CarForm implements FormModel<Car, Car> {
   }
 
   void priceValuePatch(
-    double value, {
+    double? value, {
     bool updateParent = true,
     bool emitEvent = true,
   }) {
@@ -389,7 +501,7 @@ class CarForm implements FormModel<Car, Car> {
   }
 
   void modelValueReset(
-    String value, {
+    String? value, {
     bool updateParent = true,
     bool emitEvent = true,
     bool removeFocus = false,
@@ -404,7 +516,7 @@ class CarForm implements FormModel<Car, Car> {
       );
 
   void colorValueReset(
-    String value, {
+    String? value, {
     bool updateParent = true,
     bool emitEvent = true,
     bool removeFocus = false,
@@ -419,7 +531,7 @@ class CarForm implements FormModel<Car, Car> {
       );
 
   void yearValueReset(
-    int value, {
+    int? value, {
     bool updateParent = true,
     bool emitEvent = true,
     bool removeFocus = false,
@@ -434,7 +546,7 @@ class CarForm implements FormModel<Car, Car> {
       );
 
   void priceValueReset(
-    double value, {
+    double? value, {
     bool updateParent = true,
     bool emitEvent = true,
     bool removeFocus = false,
@@ -533,7 +645,8 @@ class CarForm implements FormModel<Car, Car> {
   }
 
   @override
-  Car get model {
+  @protected
+  CarOutput get model {
     final isValid = !currentForm.hasErrors && currentForm.errors.isEmpty;
 
     if (!isValid) {
@@ -543,7 +656,7 @@ class CarForm implements FormModel<Car, Car> {
         StackTrace.current,
       );
     }
-    return Car(
+    return CarOutput(
         model: _modelValue,
         color: _colorValue,
         year: _yearValue,
@@ -605,7 +718,7 @@ class CarForm implements FormModel<Car, Car> {
 
   @override
   void submit({
-    required void Function(Car model) onValid,
+    required void Function(CarOutput model) onValid,
     void Function()? onNotValid,
   }) {
     currentForm.markAllAsTouched();
@@ -679,6 +792,17 @@ class CarForm implements FormModel<Car, Car> {
           asyncValidators: [],
           asyncValidatorsDebounceTime: 250,
           disabled: false);
+}
+
+@Rf(output: true)
+@freezed
+class CarOutput with _$CarOutput {
+  factory CarOutput(
+      {@RfControl(validators: [RequiredValidator()]) required String model,
+      @RfControl(validators: [RequiredValidator()]) required String color,
+      @RfControl(validators: [RequiredValidator()]) required int year,
+      @RfControl(validators: [RequiredValidator()])
+      required double price}) = _CarOutput;
 }
 
 class ReactiveCarFormArrayBuilder<ReactiveCarFormArrayBuilderT>
