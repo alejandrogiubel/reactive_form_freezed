@@ -14,10 +14,6 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-Car _$CarFromJson(Map<String, dynamic> json) {
-  return _Car.fromJson(json);
-}
-
 /// @nodoc
 mixin _$Car {
   @RfControl(validators: [RequiredValidator()])
@@ -28,9 +24,6 @@ mixin _$Car {
   int get year => throw _privateConstructorUsedError;
   @RfControl(validators: [RequiredValidator()])
   double get price => throw _privateConstructorUsedError;
-
-  /// Serializes this Car to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of Car
   /// with the given fields replaced by the non-null parameter values.
@@ -141,16 +134,13 @@ class __$$CarImplCopyWithImpl<$Res> extends _$CarCopyWithImpl<$Res, _$CarImpl>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$CarImpl implements _Car {
   _$CarImpl(
       {@RfControl(validators: [RequiredValidator()]) this.model = 'Tesla',
       @RfControl(validators: [RequiredValidator()]) this.color = 'Green',
       @RfControl(validators: [RequiredValidator()]) this.year = 2024,
       @RfControl(validators: [RequiredValidator()]) required this.price});
-
-  factory _$CarImpl.fromJson(Map<String, dynamic> json) =>
-      _$$CarImplFromJson(json);
 
   @override
   @JsonKey()
@@ -184,7 +174,6 @@ class _$CarImpl implements _Car {
             (identical(other.price, price) || other.price == price));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, model, color, year, price);
 
@@ -195,13 +184,6 @@ class _$CarImpl implements _Car {
   @pragma('vm:prefer-inline')
   _$$CarImplCopyWith<_$CarImpl> get copyWith =>
       __$$CarImplCopyWithImpl<_$CarImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$CarImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _Car implements Car {
@@ -211,8 +193,6 @@ abstract class _Car implements Car {
       @RfControl(validators: [RequiredValidator()]) final int year,
       @RfControl(validators: [RequiredValidator()])
       required final double price}) = _$CarImpl;
-
-  factory _Car.fromJson(Map<String, dynamic> json) = _$CarImpl.fromJson;
 
   @override
   @RfControl(validators: [RequiredValidator()])

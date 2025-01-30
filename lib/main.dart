@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       ),
       home: Scaffold(
         body: CarFormBuilder(
-          model: Car(price: 1),
+          model: Car(price: 100000),
           builder: (context, formModel, child) => Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -39,6 +39,21 @@ class MyApp extends StatelessWidget {
                   ReactiveTextField(
                     formControl: formModel.priceControl,
                   ),
+                  ReactiveCarFormConsumer(
+                    builder: (context, formModel, child) {
+                      return ElevatedButton(
+                        onPressed: formModel.form.valid
+                            ? () {
+                                print(formModel.modelControl.value);
+                                print(formModel.colorControl.value);
+                                print(formModel.yearControl.value);
+                                print(formModel.priceControl.value);
+                              }
+                            : null,
+                        child: const Text('Submit'),
+                      );
+                    },
+                  )
                 ],
               ),
             ),

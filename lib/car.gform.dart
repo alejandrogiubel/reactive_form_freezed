@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file:
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'car.dart';
 
@@ -132,6 +132,8 @@ class CarFormBuilder extends StatefulWidget {
 class _CarFormBuilderState extends State<CarFormBuilder> {
   late CarForm _formModel;
 
+  StreamSubscription<LogRecord>? _logSubscription;
+
   @override
   void initState() {
     _formModel = CarForm(CarForm.formElements(widget.model), null);
@@ -141,6 +143,34 @@ class _CarFormBuilderState extends State<CarFormBuilder> {
     }
 
     widget.initState?.call(context, _formModel);
+
+    _logSubscription = _logCarForm.onRecord.listen((LogRecord e) {
+      // use `dumpErrorToConsole` for severe messages to ensure that severe
+      // exceptions are formatted consistently with other Flutter examples and
+      // avoids printing duplicate exceptions
+      if (e.level >= Level.SEVERE) {
+        final Object? error = e.error;
+        FlutterError.dumpErrorToConsole(
+          FlutterErrorDetails(
+            exception: error is Exception ? error : Exception(error),
+            stack: e.stackTrace,
+            library: e.loggerName,
+            context: ErrorDescription(e.message),
+          ),
+        );
+      } else {
+        log(
+          e.message,
+          time: e.time,
+          sequenceNumber: e.sequenceNumber,
+          level: e.level.value,
+          name: e.loggerName,
+          zone: e.zone,
+          error: e.error,
+          stackTrace: e.stackTrace,
+        );
+      }
+    });
 
     super.initState();
   }
@@ -157,6 +187,7 @@ class _CarFormBuilderState extends State<CarFormBuilder> {
   @override
   void dispose() {
     _formModel.form.dispose();
+    _logSubscription?.cancel();
     super.dispose();
   }
 
@@ -179,7 +210,9 @@ class _CarFormBuilderState extends State<CarFormBuilder> {
   }
 }
 
-class CarForm implements FormModel<Car> {
+final _logCarForm = Logger.detached('CarForm');
+
+class CarForm implements FormModel<Car, Car> {
   CarForm(
     this.form,
     this.path,
@@ -207,14 +240,24 @@ class CarForm implements FormModel<Car> {
 
   String priceControlPath() => pathBuilder(priceControlName);
 
-  String get _modelValue => modelControl.value as String;
+  String get _modelValue => modelControl.value ?? 'Tesla';
 
-  String get _colorValue => colorControl.value as String;
+  String get _colorValue => colorControl.value ?? 'Green';
 
-  int get _yearValue => yearControl.value as int;
+  int get _yearValue => yearControl.value ?? 2024;
 
   double get _priceValue => priceControl.value as double;
 
+  String get _modelRawValue => modelControl.value ?? 'Tesla';
+
+  String get _colorRawValue => colorControl.value ?? 'Green';
+
+  int get _yearRawValue => yearControl.value ?? 2024;
+
+  double get _priceRawValue => priceControl.value as double;
+
+  @Deprecated(
+      'Generator completely wraps the form and ensures at startup that all controls are present inside the form so we do not need this additional step')
   bool get containsModel {
     try {
       form.control(modelControlPath());
@@ -224,6 +267,8 @@ class CarForm implements FormModel<Car> {
     }
   }
 
+  @Deprecated(
+      'Generator completely wraps the form and ensures at startup that all controls are present inside the form so we do not need this additional step')
   bool get containsColor {
     try {
       form.control(colorControlPath());
@@ -233,6 +278,8 @@ class CarForm implements FormModel<Car> {
     }
   }
 
+  @Deprecated(
+      'Generator completely wraps the form and ensures at startup that all controls are present inside the form so we do not need this additional step')
   bool get containsYear {
     try {
       form.control(yearControlPath());
@@ -242,6 +289,8 @@ class CarForm implements FormModel<Car> {
     }
   }
 
+  @Deprecated(
+      'Generator completely wraps the form and ensures at startup that all controls are present inside the form so we do not need this additional step')
   bool get containsPrice {
     try {
       form.control(priceControlPath());
@@ -347,7 +396,12 @@ class CarForm implements FormModel<Car> {
     bool? disabled,
   }) =>
       modelControl.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
+        value: value,
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+        removeFocus: removeFocus,
+        disabled: disabled,
+      );
 
   void colorValueReset(
     String value, {
@@ -357,7 +411,12 @@ class CarForm implements FormModel<Car> {
     bool? disabled,
   }) =>
       colorControl.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
+        value: value,
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+        removeFocus: removeFocus,
+        disabled: disabled,
+      );
 
   void yearValueReset(
     int value, {
@@ -367,7 +426,12 @@ class CarForm implements FormModel<Car> {
     bool? disabled,
   }) =>
       yearControl.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
+        value: value,
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+        removeFocus: removeFocus,
+        disabled: disabled,
+      );
 
   void priceValueReset(
     double value, {
@@ -377,7 +441,12 @@ class CarForm implements FormModel<Car> {
     bool? disabled,
   }) =>
       priceControl.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
+        value: value,
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+        removeFocus: removeFocus,
+        disabled: disabled,
+      );
 
   FormControl<String> get modelControl =>
       form.control(modelControlPath()) as FormControl<String>;
@@ -468,15 +537,26 @@ class CarForm implements FormModel<Car> {
     final isValid = !currentForm.hasErrors && currentForm.errors.isEmpty;
 
     if (!isValid) {
-      debugPrintStack(
-          label:
-              '[${path ?? 'CarForm'}]\n┗━ Avoid calling `model` on invalid form. Possible exceptions for non-nullable fields which should be guarded by `required` validator.');
+      _logCarForm.warning(
+        'Avoid calling `model` on invalid form.Possible exceptions for non-nullable fields which should be guarded by `required` validator.',
+        null,
+        StackTrace.current,
+      );
     }
     return Car(
         model: _modelValue,
         color: _colorValue,
         year: _yearValue,
         price: _priceValue);
+  }
+
+  @override
+  Car get rawModel {
+    return Car(
+        model: _modelRawValue,
+        color: _colorRawValue,
+        year: _yearRawValue,
+        price: _priceRawValue);
   }
 
   @override
@@ -512,6 +592,18 @@ class CarForm implements FormModel<Car> {
   }
 
   @override
+  bool equalsTo(Car? other) {
+    final currentForm = this.currentForm;
+
+    return const DeepCollectionEquality().equals(
+      currentForm is FormControlCollection<dynamic>
+          ? currentForm.rawValue
+          : currentForm.value,
+      CarForm.formElements(other).rawValue,
+    );
+  }
+
+  @override
   void submit({
     required void Function(Car model) onValid,
     void Function()? onNotValid,
@@ -520,6 +612,8 @@ class CarForm implements FormModel<Car> {
     if (currentForm.valid) {
       onValid(model);
     } else {
+      _logCarForm.info('Errors');
+      _logCarForm.info('┗━━ ${form.errors}');
       onNotValid?.call();
     }
   }
@@ -607,8 +701,12 @@ class ReactiveCarFormArrayBuilder<ReactiveCarFormArrayBuilderT>
   final Widget Function(
       BuildContext context, List<Widget> itemList, CarForm formModel)? builder;
 
-  final Widget Function(BuildContext context, int i,
-      ReactiveCarFormArrayBuilderT? item, CarForm formModel) itemBuilder;
+  final Widget Function(
+      BuildContext context,
+      int i,
+      FormControl<ReactiveCarFormArrayBuilderT> control,
+      ReactiveCarFormArrayBuilderT? item,
+      CarForm formModel) itemBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -630,6 +728,8 @@ class ReactiveCarFormArrayBuilder<ReactiveCarFormArrayBuilderT>
                 itemBuilder(
                   context,
                   i,
+                  formArray.controls[i]
+                      as FormControl<ReactiveCarFormArrayBuilderT>,
                   item,
                   formModel,
                 ),

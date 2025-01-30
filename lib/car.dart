@@ -2,7 +2,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
 part 'car.freezed.dart';
-part 'car.g.dart';
 part 'car.gform.dart';
 
 @Rf()
@@ -29,6 +28,4 @@ class Car with _$Car {
     )
     required double price,
   }) = _Car;
-
-  factory Car.fromJson(Map<String, dynamic> json) => _$CarFromJson(json);
 }
